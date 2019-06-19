@@ -31,7 +31,7 @@ public class NetworkDynamics implements Control {
 		Object ev;
 		long latencia;
 		
-		ev = new IntMsg(tipo,remetente,valor);
+		ev = new Capsula(tipo,remetente, -1, valor);
 		latencia = ((Transport)remetente.getProtocol(tid)).getLatency(remetente, destinatario);
 		EDSimulator.add(latencia,ev,destinatario,pid);
 		
