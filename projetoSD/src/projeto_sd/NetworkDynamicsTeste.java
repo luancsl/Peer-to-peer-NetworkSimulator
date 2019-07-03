@@ -1,18 +1,13 @@
 package projeto_sd;
 
 import peersim.config.Configuration;
-import peersim.core.CommonState;
 import peersim.core.Control;
 import peersim.core.Network;
 import peersim.core.Node;
 import peersim.edsim.EDSimulator;
 import peersim.transport.Transport;
 
-public class NetworkInitializer implements Control {
-	
-	private static final String PROT="protocolo";
-	
-	private static final String TRANSPORTE ="transporte";
+public class NetworkDynamicsTeste implements Control {
 	
 	private static final int EV_RESPOSTA = 0;
 	private static final int EV_ESTA_VIVO = 1;
@@ -33,15 +28,21 @@ public class NetworkInitializer implements Control {
 	private static final int LOOP_2MASTER = 13;
 
 	
+	private static final String PROT = "protocolo";
+	
+	private static final String TRANSPORTE = "transporte";
+	
 	private final int pid;
 	private final int tid;
 	private Inicializar init;
 	
-	public NetworkInitializer(String prefixo) {
-		this.pid = Configuration.getPid(prefixo+"."+PROT);
-		this.tid = Configuration.getPid(prefixo+"."+TRANSPORTE);
-		this.init = new Inicializar(prefixo);
+	public NetworkDynamicsTeste(String prefixo) {
+		this.pid = Configuration.getPid(prefixo + "." + PROT);
+		this.tid = Configuration.getPid(prefixo + "." + TRANSPORTE);
+		
+		this.init = new Inicializar("init.net");
 	}
+	
 	
 	public void enviarMsg(long latencia, Node remetente, Node destinatario, int tipo, int tipoResposta, Object valor, int pid) {
 		Object ev;
@@ -51,43 +52,21 @@ public class NetworkInitializer implements Control {
 		System.out.println(
 				"DYN: Nó " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
 	}
-
-
+	
 	public boolean execute() {
 		
 		
-		for(int i=0; i<Network.size(); i++){
-			Node no = Network.get(i);
-			this.init.inicializar(no);
-			
-		}
 		
-		/*
-		 * for(int i = 1; i<Network.size(); i++) { Node no = Network.get(i); SDProtocolo
-		 * prot = (SDProtocolo)no.getProtocol(pid);
-		 * 
-		 * }
-		 */
+		Node no = Network.get(1);
 		
-		/*
-		 * Node remetente = Network.get(3); Node destinatario = Network.get(2);
-		 * 
-		 * enviarMsg(1000, remetente, destinatario, this.EV_ESCOLHER_MASTER, -1, null,
-		 * pid);;
-		 * 
-		 * remetente = Network.get(1); destinatario = Network.get(2);
-		 * 
-		 * enviarMsg(2000, remetente, destinatario, this.EV_ESCOLHER_MASTER, -1, null,
-		 * pid);;
-		 * 
-		 * remetente = Network.get(2); destinatario = Network.get(3);
-		 * 
-		 * 
-		 * enviarMsg(3000, remetente, destinatario, this.EV_TORNE_SE_2MASTER, -1, null,
-		 * pid);;
-		 */
+		Node novoNo = (Node)no.clone();
 		
-		return true;
+		this.init.inicializar(novoNo);
+		
+		Network.add(novoNo);
+		
+		
+		return false;
 	}
 
 }

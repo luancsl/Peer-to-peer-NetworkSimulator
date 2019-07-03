@@ -2,7 +2,10 @@ package projeto_sd;
 
 import peersim.core.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import org.apache.commons.lang.SerializationUtils;
 
 import peersim.config.*;
 import peersim.edsim.*;
@@ -33,7 +36,7 @@ public class SDProtocolo implements EDProtocol {
 	int tid;
 
 	ArrayList<Integer> result;
-	
+
 	ArrayList<Node> conhecidos;
 
 	private int recursos_proprio = 0;
@@ -69,163 +72,229 @@ public class SDProtocolo implements EDProtocol {
 
 			case EV_ESTA_VIVO: {
 
-			};break;
+			}
+				;
+				break;
 
 			case EV_PING: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_ESCOLHA_SEU_MASTER: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_TORNE_SE_MASTER: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_TORNE_SE_2MASTER: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_COPIA_MASTER: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_ESCOLHER_MASTER: {
 				Node remetente = ((Capsula) evento).getRemetente();
-				
+
 				this.setMaster(remetente);
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_RECURSO_PEDIDO: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case EV_RECURSO_ENVIO: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case LOOP_PRINCIPAL: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case LOOP_COMSUMO: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case LOOP_MASTER: {
 
-			};break;
-			
+			}
+				;
+				break;
+
 			case LOOP_2MASTER: {
 
-			};break;
-			
-			
-			
+			}
+				;
+				break;
+
 			}
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_ESTA_VIVO: {
 
-		};break;
+		}
+			;
+			break;
 
 		case EV_PING: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_ESCOLHA_SEU_MASTER: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_TORNE_SE_MASTER: {
-			
+
 			this.setIsMaster(true);
-			enviarMsg(1000, node, node, this.LOOP_MASTER, -1, null, pid);
+			enviarMsg(10, node, node, this.LOOP_MASTER, -1, null, pid);
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_TORNE_SE_2MASTER: {
-			
-			this.setIs2Master(true);
-			enviarMsg(1000, node, node, this.LOOP_2MASTER, -1, null, pid);
+			Node remetente = ((Capsula) evento).getRemetente();
 
-		};break;
-		
+			this.setMaster(remetente);
+
+			this.setIs2Master(true);
+			enviarMsg(10, node, node, this.LOOP_2MASTER, -1, null, pid);
+
+		}
+			;
+			break;
+
 		case EV_COPIA_MASTER: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_ESCOLHER_MASTER: {
 			Node remetente = ((Capsula) evento).getRemetente();
-			
+
 			this.getConhecidos().add(remetente);
-			
-			latencia = ((Transport)node.getProtocol(tid)).getLatency(node, remetente);
-			enviarMsg(1000, node, remetente, this.EV_RESPOSTA, this.EV_ESCOLHER_MASTER, null, pid);
-			
-		};break;
-		
+
+			this.setIsMaster(true);
+
+			latencia = ((Transport) node.getProtocol(tid)).getLatency(node, remetente);
+			enviarMsg(10, node, remetente, this.EV_RESPOSTA, this.EV_ESCOLHER_MASTER, null, pid);
+
+		}
+			;
+			break;
+
 		case EV_RECURSO_PEDIDO: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case EV_RECURSO_ENVIO: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case LOOP_PRINCIPAL: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case LOOP_COMSUMO: {
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case LOOP_MASTER: {
-			
-			if(this.isMaster()) {
-				
+
+			if (this.isMaster()) {
+
+				System.out.println(String.format("Nó %d eu sou master!!!", node.getID()));
 				enviarMsg(1000, node, node, this.LOOP_MASTER, -1, null, pid);
 			}
 
-		};break;
-		
+		}
+			;
+			break;
+
 		case LOOP_2MASTER: {
-			
-			if(this.is2Master()) {
-				if(this.getMaster().isUp()) {
-					
-					SDProtocolo prot = (SDProtocolo)this.getMaster().getProtocol(pid);
-					
+
+			if (this.is2Master()) {
+				if (this.getMaster().isUp()) {
+
+					SDProtocolo prot = (SDProtocolo) this.getMaster().getProtocol(pid);
+
 					this.setConhecidos(prot.getConhecidos());
-					this.setMaster_do_master(prot.getMaster());	
-					
+					this.setMaster_do_master(prot.getMaster());
+					this.setRecursos_disponivel(2);
+
 					System.out.println(String.format("Master primario %d copiado", this.getMaster().getID()));
+
+				} else {
+
 					
-				}else {
-					
-					System.err.println(String.format("Master primario %d está offline", this.getMaster().getID()));
-					
-					Network.swap(this.getMaster().getIndex(), node.getIndex());
-					this.setMaster(this.getMaster_do_master());
-					this.setMaster_do_master(null);
-					this.setIs2Master(true);
-					
-					System.err.println(String.format("Master primario %d trocado pelo master secundario %d", this.getMaster().getID(), node.getID()));
-					
+					  System.err.println(String.format("Master primario %d está offline",
+					  this.getMaster().getID()));
+					  
+					  System.err.println(String.
+					  format("Master primario %d trocado pelo master secundario %d",
+					  this.getMaster().getID(), node.getID()));
+					  
+					  Network.swap(this.getMaster().getIndex(), node.getIndex());
+					  
+					  
+					  this.setMaster(this.getMaster_do_master()); this.setMaster_do_master(null);
+					  this.setIsMaster(true);
+					  
+					  
+					  
+					  
+					  
+					  enviarMsg(10, node, node, this.LOOP_MASTER, -1, null, pid);
+					 
 				}
-				
+
 				enviarMsg(1000, node, node, this.LOOP_2MASTER, -1, null, pid);
 			}
-			
-			
-			
-			
 
-		};break;
+		}
+			;
+			break;
 
 		/*
 		 * case EV_OK: {
@@ -259,7 +328,6 @@ public class SDProtocolo implements EDProtocol {
 		 * 
 		 * };break;
 		 */
-		 
 
 		}
 
@@ -279,7 +347,8 @@ public class SDProtocolo implements EDProtocol {
 		return prot;
 	}
 
-	public void enviarMsg(long latencia, Node remetente, Node destinatario, int tipo, int tipoResposta, Object valor, int pid) {
+	public void enviarMsg(long latencia, Node remetente, Node destinatario, int tipo, int tipoResposta, Object valor,
+			int pid) {
 		Object ev;
 		ev = new Capsula(tipo, remetente, tipoResposta, valor);
 		EDSimulator.add(latencia, ev, destinatario, pid);
@@ -287,7 +356,6 @@ public class SDProtocolo implements EDProtocol {
 		System.out.println(
 				"DYN: Nó " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
 	}
-
 
 	public Node getMaster_do_master() {
 		return master_do_master;
@@ -298,11 +366,19 @@ public class SDProtocolo implements EDProtocol {
 	}
 
 	public ArrayList<Node> getConhecidos() {
+
 		return conhecidos;
 	}
 
 	public void setConhecidos(ArrayList<Node> conhecidos) {
-		this.conhecidos = conhecidos;
+
+		ArrayList<Node> clone = new ArrayList<Node>();
+
+		for (Node item : conhecidos) {
+			clone.add(item);
+		}
+
+		this.conhecidos = clone;
 	}
 
 	public int getRecursos_proprio() {
@@ -415,7 +491,7 @@ public class SDProtocolo implements EDProtocol {
 
 	public void setIs2Master(boolean set) {
 
-		this.isMaster = set;
+		this.is2Master = set;
 
 		if (set == true) {
 			this.isMaster = false;

@@ -16,6 +16,7 @@ public class Capsula extends Msg{
 		super.remetente = remetente;
 		Object copyValor = SerializationUtils.clone((Serializable) valor);
 		this.valor = copyValor;
+		this.tipoResposta = tipoResposta;
 	}
 	
 
