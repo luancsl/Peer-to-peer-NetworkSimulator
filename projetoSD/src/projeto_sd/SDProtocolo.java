@@ -39,9 +39,9 @@ public class SDProtocolo implements EDProtocol {
 
 	ArrayList<Node> conhecidos;
 
-	private int recursos_proprio = 0;
-	private int recursos_disponivel = 0;
-	private int recursos_alocado = 0;
+	private int recursos_proprio = 0; // quantidade total de recurso do nó 
+	private int recursos_disponivel = 0; //recurso para ser compartilhado
+	private int recursos_alocado = 0; // recurso utilizado pelo nó
 
 	private int pedidos_recursos = 0;
 
@@ -54,6 +54,9 @@ public class SDProtocolo implements EDProtocol {
 	private boolean isMaster = false;
 	private boolean is2Master = false;
 
+	// porcentagem do recurso 
+	private int percentual_recurso = 10;
+	
 	public SDProtocolo(String prefixo) {
 		this.tid = Configuration.getPid(prefixo + "." + TRANSPORTE);
 
@@ -128,7 +131,8 @@ public class SDProtocolo implements EDProtocol {
 				break;
 
 			case EV_RECURSO_ENVIO: {
-
+					
+					
 			}
 				;
 				break;
@@ -245,8 +249,16 @@ public class SDProtocolo implements EDProtocol {
 			;
 			break;
 
-		case EV_RECURSO_ENVIO: {
-
+		case EV_RECURSO_ENVIO: { // Nós enviam recurso para o master
+			Node remetente = ((Capsula) evento).getRemetente();
+			int recurso_disponivel = (int)((Capsula) evento).getValor();
+			
+			if(this.isMaster()) {
+				this.setRecursos_disponivel(this.getRecursos_disponivel() + recurso_disponivel);
+				System.err.println("# NO "+ remetente.getID() +" CEDEU "+ recurso_disponivel + " AO MASTER #");
+				
+			}
+			//System.err.println("RECURSO DISPONÍVEL => "+ recurso_disponivel);
 		}
 			;
 			break;
@@ -254,12 +266,27 @@ public class SDProtocolo implements EDProtocol {
 		case LOOP_PRINCIPAL: { 
 			// Nó envia pedido de recurso 
 			int recursoSolicitado = CommonState.r.nextInt(100);
-			enviarMsg(10, node ,this.getMaster(),this.EV_RECURSO_PEDIDO,-1, recursoSolicitado,pid);
+			
+
+			enviarMsg(10, node ,this.getMaster(),this.EV_RECURSO_PEDIDO,-1, recursoSolicitado,pid);//pede recurso ao master
+			System.out.println("##PEDE RECURSO AO MASTER!##");
+			
+			
+			
+			
+			
+			// nó disponibiliza recurso para o master
+			if(this.recursos_disponivel > 0) {
+			
+				this.recursos_disponivel = this.recursos_proprio*this.percentual_recurso/100;
+				enviarMsg(5, node, this.getMaster(), this.EV_RECURSO_ENVIO, -1, this.recursos_disponivel, pid);
+				
+			}
+			
 			
 			// chama o LOOP_PRINCIPAL em um tempoAleatorio
-			int tempoAleatorio = CommonState.r.nextInt(100);
+			int tempoAleatorio = CommonState.r.nextInt(10000);
 			enviarMsg(tempoAleatorio, node, node, this.LOOP_PRINCIPAL, -1, null, pid);
-			
 		}
 			;
 			break;
@@ -527,5 +554,7 @@ public class SDProtocolo implements EDProtocol {
 			this.isMaster = false;
 		}
 	}
+	
+	
 
 }

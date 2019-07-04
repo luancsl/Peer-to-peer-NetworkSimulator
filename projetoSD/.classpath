@@ -6,10 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/projetosd/projetoSD/libs/commons-lang3-3.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/projetosd/projetoSD/libs/djep-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/projetosd/projetoSD/libs/jep-2.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/projetosd/projetoSD/libs/peersim-1.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/projetosd/projetoSD/libs/peersim-doclet.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/djep-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/jep-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/peersim-1.0.5.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/peersim-doclet.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/commons-lang3-3.9/commons-lang3-3.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

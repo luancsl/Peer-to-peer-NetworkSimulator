@@ -12,7 +12,7 @@ public class NetworkDynamicsTeste implements Control {
 	private static final int EV_RESPOSTA = 0;
 	private static final int EV_ESTA_VIVO = 1;
 	private static final int EV_PING = 2;
-
+	
 	private static final int EV_ESCOLHA_SEU_MASTER = 3;
 	private static final int EV_TORNE_SE_MASTER = 4;
 	private static final int EV_TORNE_SE_2MASTER = 5;
