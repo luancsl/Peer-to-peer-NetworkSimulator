@@ -27,7 +27,7 @@ public class Inicializar {
 		prot.setRecursos_proprio(recurso);
 		prot.setRecursos_disponivel(recurso);
 		
-		System.err.println("Nó "+no.getIndex()+" inicializado com "+prot.result.toString()+"");
+		System.err.println("Nï¿½ "+no.getIndex()+" inicializado com "+prot.result.toString()+"");
 		
 	}
 }

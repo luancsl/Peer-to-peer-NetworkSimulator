@@ -36,7 +36,7 @@ public class ObserverEntradaNo implements Control{
 		latencia = ((Transport)remetente.getProtocol(tid)).getLatency(remetente, destinatario);
 		EDSimulator.add(latencia,ev,destinatario,pid);
 		
-		System.out.println("DYN: Nó "+remetente.getIndex()+" operacao Somar para "+destinatario.getIndex()+"");
+		System.out.println("DYN: NÃ³ "+remetente.getIndex()+" operacao Somar para "+destinatario.getIndex()+"");
 	}
 	
 
@@ -50,16 +50,16 @@ public class ObserverEntradaNo implements Control{
 				
 				
 				if(prot.getMaster() == null) {
-					System.out.println(String.format("Nó ID: %d, Nó Index: %d, Master: %b, 2Master: %b, Latencia: %d\n"
-							+ "Recursos_proprio: %d, Recursos_disponiveis: %d, Recursos_ocupado: %d, Pedidos_Recursos: %d \n"
-							+ "Disponibilidade: %d, Indisponibilidade: %d, Conhecidos: %s ",
+					System.out.println(String.format("NÃ³ ID: %d, NÃ³ Index: %d, Master: %b, 2Master: %b, Latencia: %d\n"
+							+ "Recursos_proprio: %d, Recursos_disponiveis: %d, Recursos_Solicitados: %d, Pedidos_Recursos: %d \n"
+							+ "Disponibilidade: %d, Indisponibilidade: %d, Conhecidos: %s \n\n",
 							no.getID(), no.getIndex(), prot.isMaster(), prot.is2Master(), prot.getLatencia(), prot.getRecursos_proprio(),
 							prot.getRecursos_disponivel(), prot.getRecursos_alocado(), prot.getPedidos_recursos(),
 							prot.getDisponibilidade(), prot.getIndisponibilidade(), prot.getConhecidos().toString()));
 				}else {
-					System.out.println(String.format("Nó ID: %d, Nó Index: %d, Nó Master: %d, Master: %b, 2Master: %b, Latencia: %d\n"
-							+ "Recursos_proprio: %d, Recursos_disponiveis: %d, Recursos_ocupado: %d, Pedidos_Recursos: %d \n"
-							+ "Disponibilidade: %d, Indisponibilidade: %d, Conhecidos: %s ",
+					System.out.println(String.format("NÃ³ ID: %d, NÃ³ Index: %d, NÃ³ Master: %d, Master: %b, 2Master: %b, Latencia: %d\n"
+							+ "Recursos_proprio: %d, Recursos_disponiveis: %d, Recursos_Solicitados: %d, Pedidos_Recursos: %d \n"
+							+ "Disponibilidade: %d, Indisponibilidade: %d, Conhecidos: %s \n\n",
 							no.getID(), no.getIndex(), prot.getMaster().getIndex(), prot.isMaster(), prot.is2Master(), prot.getLatencia(), prot.getRecursos_proprio(),
 							prot.getRecursos_disponivel(), prot.getRecursos_alocado(), prot.getPedidos_recursos(),
 							prot.getDisponibilidade(), prot.getIndisponibilidade(), prot.getConhecidos().toString()));
@@ -69,7 +69,9 @@ public class ObserverEntradaNo implements Control{
 			
 			
 		}
-
+		
+		
+		//System.out.println(Network.size());
 		
 		return false;
 	}

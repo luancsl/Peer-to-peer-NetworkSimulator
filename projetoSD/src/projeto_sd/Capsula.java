@@ -2,7 +2,7 @@ package projeto_sd;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang3.SerializationUtils;
 
 import peersim.core.Node;
 

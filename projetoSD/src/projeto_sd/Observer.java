@@ -36,7 +36,7 @@ public class Observer implements Control{
 		latencia = ((Transport)remetente.getProtocol(tid)).getLatency(remetente, destinatario);
 		EDSimulator.add(latencia,ev,destinatario,pid);
 		
-		System.out.println("DYN: Nó "+remetente.getIndex()+" operacao Somar para "+destinatario.getIndex()+"");
+		System.out.println("DYN: Nï¿½ "+remetente.getIndex()+" operacao Somar para "+destinatario.getIndex()+"");
 	}
 	
 
@@ -63,7 +63,7 @@ public class Observer implements Control{
 						prot.getRecursos_disponivel(), prot.getRecursos_alocado(), prot.getPedidos_recursos(),
 						prot.getDisponibilidade(), prot.getIndisponibilidade()));
 			}else {
-				System.out.println(String.format("Nó Master: %d, Master: %b, 2Master: %b, Latencia: %d\n"
+				System.out.println(String.format("NÃ³ Master: %d, Master: %b, 2Master: %b, Latencia: %d\n"
 						+ "Recursos_proprio: %d, Recursos_disponiveis: %d, Recursos_ocupado: %d, Pedidos_Recursos: %d \n"
 						+ "Disponibilidade: %d, Indisponibilidade: %d ",
 						prot.getMaster().getIndex(), prot.isMaster(), prot.is2Master(), prot.getLatencia(), prot.getRecursos_proprio(),

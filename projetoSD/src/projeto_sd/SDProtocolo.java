@@ -5,7 +5,7 @@ import peersim.core.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang3.SerializationUtils;
 
 import peersim.config.*;
 import peersim.edsim.*;
@@ -63,7 +63,8 @@ public class SDProtocolo implements EDProtocol {
 
 		Object ev;
 		long latencia;
-
+		
+		
 		switch (((Capsula) evento).getTipo()) {
 
 		case EV_RESPOSTA: {
@@ -116,7 +117,12 @@ public class SDProtocolo implements EDProtocol {
 				break;
 
 			case EV_RECURSO_PEDIDO: {
-
+				
+				// Envia recurso para o nÃ³ que solicitou
+				int recursoSolicitado = (int)((Capsula) evento).getValor();
+				if(recursoSolicitado != -1) {
+					this.recursos_alocado += recursoSolicitado;
+				}
 			}
 				;
 				break;
@@ -217,7 +223,24 @@ public class SDProtocolo implements EDProtocol {
 			break;
 
 		case EV_RECURSO_PEDIDO: {
-
+			
+			// Cedendo Recurso do nÃ³ master para um nÃ³ que solicitou o recurso
+			Node remetente = ((Capsula) evento).getRemetente(); // NÃ³ que solicitou o recurso
+			int recursoSolicitado = (int) ((Capsula) evento).getValor();
+			
+			System.err.println("recurso disponivel no no" + node.getID() + ": " + this.recursos_disponivel);
+			
+			if(this.recursos_disponivel >= recursoSolicitado) {
+				this.recursos_disponivel -= recursoSolicitado;
+				enviarMsg(10, node, remetente, this.EV_RESPOSTA, this.EV_RECURSO_PEDIDO, recursoSolicitado, pid);
+				System.out.println("no: " + remetente.getID() + ", solicitou: " + recursoSolicitado + " do no " + node.getID());
+			}
+			else {
+				enviarMsg(10, node, remetente, this.EV_RESPOSTA, this.EV_RECURSO_PEDIDO, -1, pid);
+				System.err.println("nao tem recurso");
+			}
+			
+			System.err.println("recurso disponivel no no" + node.getID() + ": " + this.recursos_disponivel);
 		}
 			;
 			break;
@@ -228,8 +251,15 @@ public class SDProtocolo implements EDProtocol {
 			;
 			break;
 
-		case LOOP_PRINCIPAL: {
-
+		case LOOP_PRINCIPAL: { 
+			// NÃ³ envia pedido de recurso 
+			int recursoSolicitado = CommonState.r.nextInt(100);
+			enviarMsg(10, node ,this.getMaster(),this.EV_RECURSO_PEDIDO,-1, recursoSolicitado,pid);
+			
+			// chama o LOOP_PRINCIPAL em um tempoAleatorio
+			int tempoAleatorio = CommonState.r.nextInt(100);
+			enviarMsg(tempoAleatorio, node, node, this.LOOP_PRINCIPAL, -1, null, pid);
+			
 		}
 			;
 			break;
@@ -244,7 +274,7 @@ public class SDProtocolo implements EDProtocol {
 
 			if (this.isMaster()) {
 
-				System.out.println(String.format("Nó %d eu sou master!!!", node.getID()));
+				System.out.println(String.format("NÃ³ %d eu sou master!!!", node.getID()));
 				enviarMsg(1000, node, node, this.LOOP_MASTER, -1, null, pid);
 			}
 
@@ -268,7 +298,7 @@ public class SDProtocolo implements EDProtocol {
 				} else {
 
 					
-					  System.err.println(String.format("Master primario %d está offline",
+					  System.err.println(String.format("Master primario %d estÃ³ offline",
 					  this.getMaster().getID()));
 					  
 					  System.err.println(String.
@@ -302,8 +332,8 @@ public class SDProtocolo implements EDProtocol {
 		 * int resultado = ((Capsula) evento).getValor();
 		 * 
 		 * if (resultado == -1) {
-		 * System.err.println("Não foi possivel realizar a operacao!"); } else
-		 * System.out.println("Nó " + node.getIndex() + " com " + this.result.toString()
+		 * System.err.println("Nï¿½o foi possivel realizar a operacao!"); } else
+		 * System.out.println("Nï¿½ " + node.getIndex() + " com " + this.result.toString()
 		 * + ""); System.out.println("Operacao " + resultado +
 		 * " realizada com sucesso!");
 		 * 
@@ -353,8 +383,8 @@ public class SDProtocolo implements EDProtocol {
 		ev = new Capsula(tipo, remetente, tipoResposta, valor);
 		EDSimulator.add(latencia, ev, destinatario, pid);
 
-		System.out.println(
-				"DYN: Nó " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
+		//System.out.println(
+		//		"DYN: NÃ³ " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
 	}
 
 	public Node getMaster_do_master() {

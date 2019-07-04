@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/peersim-1.0.5/djep-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/peersim-1.0.5/jep-2.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/Google Drive/BCC/Periodos/2019.1/03-Sistemas Distribuidos/projeto p2p/peersim-1.0.5/peersim-1.0.5.jar" sourcepath="example/peersim-1.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luan Lins/eclipse-workspace/commons-lang-2.6/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/peersim-doclet.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/peersim-1.0.5.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/jep-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/SistemasDistribuidos/projetosd/peersim-1.0.5/djep-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/frontend/Documentos/commons-lang3-3.9/commons-lang3-3.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

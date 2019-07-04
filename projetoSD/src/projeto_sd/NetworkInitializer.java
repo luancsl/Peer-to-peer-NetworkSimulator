@@ -49,18 +49,38 @@ public class NetworkInitializer implements Control {
 		EDSimulator.add(latencia, ev, destinatario, pid);
 
 		System.out.println(
-				"DYN: Nó " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
+				"DYN: Node " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
 	}
 
 
 	public boolean execute() {
 		
-		
+		Node noInicial = Network.get(0);
+		this.init.inicializar(noInicial);
+		/*
 		for(int i=0; i<Network.size(); i++){
 			Node no = Network.get(i);
 			this.init.inicializar(no);
 			
+		}*/
+		//Node no = Network.get(0);
+		//this.init.inicializar(no);
+		
+		// Adiciona 5 nÃ³s na rede
+		for(int i=0; i<5; i++){
+			
+			
+			Node novoNo = (Node)noInicial.clone();
+			
+			this.init.inicializar(novoNo);
+			
+			Network.add(novoNo);
+			
+			enviarMsg(1,novoNo, noInicial, this.EV_ESCOLHER_MASTER, -1, null, pid);
+			enviarMsg(100,novoNo, novoNo, this.LOOP_PRINCIPAL, -1, null, pid);
+			
 		}
+		
 		
 		/*
 		 * for(int i = 1; i<Network.size(); i++) { Node no = Network.get(i); SDProtocolo
