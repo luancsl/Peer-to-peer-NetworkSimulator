@@ -50,7 +50,7 @@ public class NetworkDynamicsTeste implements Control {
 		EDSimulator.add(latencia, ev, destinatario, pid);
 
 		System.out.println(
-				"DYN: NÃ³ " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
+				"DYN: Nó " + remetente.getIndex() + " operacao " + tipo + " para " + destinatario.getIndex() + "");
 	}
 	
 	public boolean execute() {
